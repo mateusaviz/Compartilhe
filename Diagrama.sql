@@ -200,15 +200,18 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `rededecomp`.`comentarios`
+-- Table `rededecomp`.`postagens`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `rededecomp`.`comentarios` (
-  `idcomentarios` INT NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `rededecomp`.`postagens` (
+  `idpostagens` INT NOT NULL AUTO_INCREMENT ,
   `texto` TEXT NULL ,
   `idUsuario` INT(11) NOT NULL ,
-  PRIMARY KEY (`idcomentarios`) ,
-  INDEX `fk_comentarios_usuario1` (`idUsuario` ASC) ,
-  CONSTRAINT `fk_comentarios_usuario1`
+  `dtPost` DATETIME NULL ,
+  `dtAtualiza` DATETIME NULL ,
+  `assunto` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idpostagens`) ,
+  INDEX `fk_postagens_usuario1` (`idUsuario` ASC) ,
+  CONSTRAINT `fk_postagens_usuario1`
     FOREIGN KEY (`idUsuario` )
     REFERENCES `rededecomp`.`usuario` (`idUsuario` )
     ON DELETE NO ACTION
@@ -217,17 +220,26 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `rededecomp`.`postagens`
+-- Table `rededecomp`.`comentarios`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `rededecomp`.`postagens` (
-  `idpostagens` INT NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `rededecomp`.`comentarios` (
+  `idcomentarios` INT NOT NULL AUTO_INCREMENT ,
   `texto` TEXT NULL ,
   `idUsuario` INT(11) NOT NULL ,
-  PRIMARY KEY (`idpostagens`) ,
-  INDEX `fk_postagens_usuario1` (`idUsuario` ASC) ,
-  CONSTRAINT `fk_postagens_usuario1`
+  `dtComent` DATETIME NULL ,
+  `dtAtualiza` DATETIME NULL ,
+  `idpostagens` INT NOT NULL ,
+  PRIMARY KEY (`idcomentarios`) ,
+  INDEX `fk_comentarios_usuario1` (`idUsuario` ASC) ,
+  INDEX `fk_comentarios_postagens1` (`idpostagens` ASC) ,
+  CONSTRAINT `fk_comentarios_usuario1`
     FOREIGN KEY (`idUsuario` )
     REFERENCES `rededecomp`.`usuario` (`idUsuario` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comentarios_postagens1`
+    FOREIGN KEY (`idpostagens` )
+    REFERENCES `rededecomp`.`postagens` (`idpostagens` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -382,6 +394,7 @@ DEFAULT CHARACTER SET = latin1;
 CREATE  TABLE IF NOT EXISTS `rededecomp`.`banidos` (
   `idbanidos` INT NOT NULL ,
   `usuario_idUsuario` INT(11) NOT NULL ,
+  `dtBan` DATETIME NULL ,
   PRIMARY KEY (`idbanidos`) ,
   INDEX `fk_banidos_usuario1` (`usuario_idUsuario` ASC) ,
   CONSTRAINT `fk_banidos_usuario1`
@@ -396,4 +409,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
