@@ -13,5 +13,7 @@ and open the template in the editor.
         <?php
         echo "<h1>Alo Ha</h1>";
         ?>
+        
+        <h2>Teste de fechamento da issue</h2>
     </body>
 </html>
